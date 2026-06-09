@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual Book – Sagara Daily Checkup</title>
+  <meta name="description" content="Panduan lengkap penggunaan aplikasi Sagara Daily Checkup untuk Admin, Driver, dan Mekanik." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── CSS Variables ──────────────────────────────────────────── */
+    :root {
+      --bg-primary:    #0d1117;
+      --bg-secondary:  #161b22;
+      --bg-card:       #1c2128;
+      --bg-hover:      #22272e;
+      --border:        #30363d;
+      --border-light:  #21262d;
+      --accent-teal:   #2dd4bf;
+      --accent-blue:   #58a6ff;
+      --accent-purple: #bc8cff;
+      --accent-orange: #f0883e;
+      --accent-green:  #3fb950;
+      --accent-red:    #f85149;
+      --text-primary:  #e6edf3;
+      --text-secondary:#8b949e;
+      --text-muted:    #6e7681;
+      --sidebar-width: 280px;
+      --header-height: 64px;
+    }
+
+    /* ── Reset & Base ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-width);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-brand {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, #2dd4bf, #58a6ff);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .brand-text { display: flex; flex-direction: column; }
+    .brand-title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+    .brand-sub { font-size: 11px; color: var(--text-muted); }
+    .sidebar-version {
+      margin: 12px 20px 0;
+      font-size: 11px;
+      color: var(--accent-teal);
+      background: rgba(45, 212, 191, 0.1);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      padding: 3px 8px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+
+    .sidebar-nav { flex: 1; padding: 12px 0; }
+    .nav-group { margin-bottom: 4px; }
+    .nav-group-label {
+      padding: 8px 20px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); border-left-color: var(--accent-teal); }
+    .nav-item.active { background: rgba(45,212,191,0.08); color: var(--accent-teal); border-left-color: var(--accent-teal); font-weight: 500; }
+    .nav-icon { width: 18px; text-align: center; font-size: 14px; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* ── Main Content ─────────────────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+    }
+    .top-bar {
+      position: sticky;
+      top: 0;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+    .top-bar-title { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+    .top-bar-right { display: flex; align-items: center; gap: 12px; }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .badge-teal  { background: rgba(45,212,191,0.15); color: var(--accent-teal); border: 1px solid rgba(45,212,191,0.3); }
+    .badge-blue  { background: rgba(88,166,255,0.15); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.3); }
+    .badge-purple{ background: rgba(188,140,255,0.15); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.3); }
+    .badge-orange{ background: rgba(240,136,62,0.15); color: var(--accent-orange); border: 1px solid rgba(240,136,62,0.3); }
+    .badge-green { background: rgba(63,185,80,0.15); color: var(--accent-green); border: 1px solid rgba(63,185,80,0.3); }
+    .badge-red   { background: rgba(248,81,73,0.15); color: var(--accent-red); border: 1px solid rgba(248,81,73,0.3); }
+
+    .content { padding: 40px; max-width: 900px; }
+
+    /* ── Hero Section ─────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, rgba(45,212,191,0.08) 0%, rgba(88,166,255,0.06) 50%, rgba(188,140,255,0.04) 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(45,212,191,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent-teal);
+      margin-bottom: 12px;
+    }
+    .hero-title { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    .hero-title span { background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-desc { font-size: 16px; color: var(--text-secondary); max-width: 600px; line-height: 1.7; margin-bottom: 28px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ── Section headings ─────────────────────────────────────────── */
+    .section { margin-bottom: 56px; scroll-margin-top: 80px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .icon-teal   { background: rgba(45,212,191,0.15); }
+    .icon-blue   { background: rgba(88,166,255,0.15); }
+    .icon-purple { background: rgba(188,140,255,0.15); }
+    .icon-orange { background: rgba(240,136,62,0.15); }
+    .icon-green  { background: rgba(63,185,80,0.15); }
+    .icon-red    { background: rgba(248,81,73,0.15); }
+
+    .section-title { font-size: 24px; font-weight: 700; }
+    .section-subtitle { font-size: 14px; color: var(--text-secondary); margin-top: 3px; }
+
+    h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--text-primary); }
+    h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--accent-teal); }
+    p  { color: var(--text-secondary); margin-bottom: 12px; }
+
+    /* ── Cards ────────────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--accent-teal); transform: translateY(-1px); }
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .card-body  { color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+
+    /* ── Role cards ───────────────────────────────────────────────── */
+    .role-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .role-card.admin::before  { background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue)); }
+    .role-card.driver::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); }
+    .role-card.mekanik::before{ background: linear-gradient(90deg, var(--accent-orange), var(--accent-red)); }
+    .role-card:hover { border-color: rgba(45,212,191,0.4); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .role-icon { font-size: 36px; margin-bottom: 14px; }
+    .role-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .role-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+    .role-features { list-style: none; }
+    .role-features li {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .role-features li::before { content: '→'; color: var(--accent-teal); flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Step list ────────────────────────────────────────────────── */
+    .steps { list-style: none; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .step-desc  { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+    /* ── Alert boxes ──────────────────────────────────────────────── */
+    .alert {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-left: 4px solid;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .alert-info    { background: rgba(88,166,255,0.08); border-color: var(--accent-blue); color: var(--accent-blue); }
+    .alert-success { background: rgba(63,185,80,0.08);  border-color: var(--accent-green); color: #7ee787; }
+    .alert-warning { background: rgba(240,136,62,0.08); border-color: var(--accent-orange); color: var(--accent-orange); }
+    .alert-danger  { background: rgba(248,81,73,0.08);  border-color: var(--accent-red); color: #f97583; }
+    .alert strong  { font-weight: 700; }
+
+    /* ── Status badges ────────────────────────────────────────────── */
+    .status-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .status-item {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid;
+    }
+    .status-arrow { color: var(--text-muted); font-size: 16px; }
+
+    /* ── Table ────────────────────────────────────────────────────── */
+    .table-wrapper { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead { background: var(--bg-hover); }
+    th { padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-primary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+    td { padding: 12px 16px; color: var(--text-secondary); border-top: 1px solid var(--border-light); }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* ── Code ─────────────────────────────────────────────────────── */
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      background: rgba(110,118,129,0.15);
+      color: var(--accent-teal);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+
+    /* ── Divider ──────────────────────────────────────────────────── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* ── Feature grid ─────────────────────────────────────────────── */
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 20px 0; }
+    .feature-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      transition: border-color 0.2s;
+    }
+    .feature-item:hover { border-color: var(--accent-teal); }
+    .feature-emoji { font-size: 24px; margin-bottom: 8px; }
+    .feature-name  { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; }
+    .feature-desc  { font-size: 12.5px; color: var(--text-muted); }
+
+    /* ── TOC quick jump ───────────────────────────────────────────── */
+    .toc-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .toc-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 14px; }
+    .toc-list { columns: 2; list-style: none; gap: 8px; }
+    .toc-list li { margin-bottom: 6px; break-inside: avoid; }
+    .toc-list a { color: var(--accent-blue); text-decoration: none; font-size: 14px; }
+    .toc-list a:hover { color: var(--accent-teal); text-decoration: underline; }
+
+    /* ── Scroll to top ────────────────────────────────────────────── */
+    #scroll-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 42px; height: 42px;
+      background: var(--accent-teal);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 16px rgba(45,212,191,0.4);
+      z-index: 200;
+    }
+    #scroll-top.visible { opacity: 1; pointer-events: auto; }
+
+    /* ── PDF-only elements hidden in browser ─────────────────────── */
+    .pdf-cover, .pdf-page-footer, .role-separator, .chapter-label { display: none; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PREMIUM PRINT / PDF STYLES
+    ═══════════════════════════════════════════════════════════════ */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .sidebar, .top-bar, #scroll-top, .toc-box { display: none !important; }
+      .main { margin-left: 0 !important; }
+      .content { padding: 0 !important; max-width: 100% !important; }
+      body { background: #0d1117 !important; color: #e6edf3 !important; display: block !important; }
+
+      /* ── Cover Page ─────────────────────────────────────────────── */
+      .pdf-cover {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        page-break-after: always;
+        position: relative;
+        overflow: hidden;
+        background: #0d1117 !important;
+        padding: 60px 40px;
+        text-align: center;
+      }
+      .pdf-cover-bg {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 0%, rgba(45,212,191,0.2) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 90% 80%, rgba(88,166,255,0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 50% 40% at 10% 90%, rgba(188,140,255,0.13) 0%, transparent 50%);
+      }
+      .pdf-cover-grid {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(rgba(45,212,191,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(45,212,191,0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .pdf-cover-content { position: relative; z-index: 2; }
+      .pdf-cover-logo {
+        width: 100px; height: 100px;
+        background: linear-gradient(135deg, rgba(45,212,191,0.25), rgba(88,166,255,0.2));
+        border: 2px solid rgba(45,212,191,0.4);
+        border-radius: 28px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 46px;
+        margin: 0 auto 32px;
+        box-shadow: 0 0 60px rgba(45,212,191,0.2), 0 0 120px rgba(45,212,191,0.08);
+      }
+      .pdf-cover-eyebrow {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+        text-transform: uppercase; color: #2dd4bf; margin-bottom: 16px;
+      }
+      .pdf-cover-title {
+        font-size: 54px; font-weight: 800; line-height: 1.08; margin-bottom: 12px;
+        background: linear-gradient(135deg, #e6edf3 0%, #2dd4bf 50%, #58a6ff 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      }
+      .pdf-cover-subtitle {
+        font-size: 20px; font-weight: 600; color: #8b949e; margin-bottom: 32px;
+      }
+      .pdf-cover-divider {
+        width: 100px; height: 3px;
+        background: linear-gradient(90deg, transparent, #2dd4bf, #58a6ff, transparent);
+        margin: 0 auto 32px; border-radius: 2px;
+      }
+      .pdf-cover-desc {
+        font-size: 15px; color: #8b949e; max-width: 520px;
+        margin: 0 auto 40px; line-height: 1.8;
+      }
+      .pdf-cover-badges {
+        display: flex; flex-wrap: wrap; gap: 10px;
+        justify-content: center; margin-bottom: 60px;
+      }
+      .pdf-cover-badge {
+        padding: 8px 18px; border-radius: 30px;
+        font-size: 13px; font-weight: 600; border: 1px solid;
+      }
+      .pdf-cover-badge.teal   { background: rgba(45,212,191,0.12); color: #2dd4bf; border-color: rgba(45,212,191,0.35); }
+      .pdf-cover-badge.blue   { background: rgba(88,166,255,0.12); color: #58a6ff; border-color: rgba(88,166,255,0.35); }
+      .pdf-cover-badge.purple { background: rgba(188,140,255,0.12); color: #bc8cff; border-color: rgba(188,140,255,0.35); }
+      .pdf-cover-badge.orange { background: rgba(240,136,62,0.12); color: #f0883e; border-color: rgba(240,136,62,0.35); }
+      .pdf-cover-badge.green  { background: rgba(63,185,80,0.12); color: #3fb950; border-color: rgba(63,185,80,0.35); }
+      .pdf-cover-footer {
+        position: absolute; bottom: 40px; left: 0; right: 0;
+        display: flex; justify-content: space-between;
+        padding: 16px 60px 0; font-size: 12px; color: #6e7681;
+        border-top: 1px solid rgba(48,54,61,0.6);
+      }
+
+      /* ── Sections ───────────────────────────────────────────────── */
+      .section { page-break-inside: avoid; margin-bottom: 40px; }
+      .section-header {
+        background: linear-gradient(135deg, #161b22 0%, #1c2128 100%) !important;
+        border: 1px solid #30363d !important;
+        border-left: 5px solid !important;
+        border-radius: 14px !important;
+        padding: 22px 28px !important;
+        margin-bottom: 28px !important;
+        display: flex !important; align-items: center !important; gap: 18px !important;
+        page-break-after: avoid;
+        position: relative; overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
+      }
+      #overview .section-header,
+      #admin-dashboard .section-header,
+      #driver-ai .section-header,
+      #mekanik-ai .section-header    { border-left-color: #2dd4bf !important; }
+      #roles .section-header,
+      #driver-dashboard .section-header,
+      #admin-towing .section-header,
+      #admin-genkey .section-header,
+      #status-flow .section-header,
+      #faq .section-header           { border-left-color: #58a6ff !important; }
+      #login .section-header,
+      #mekanik-bill .section-header,
+      #admin-kendaraan .section-header { border-left-color: #3fb950 !important; }
+      #admin-pengajuan .section-header,
+      #driver-report .section-header,
+      #driver-bensin .section-header,
+      #mekanik-dashboard .section-header,
+      #mekanik-detail .section-header,
+      #admin-bensin .section-header  { border-left-color: #f0883e !important; }
+      #driver-towing .section-header { border-left-color: #bc8cff !important; }
+      #admin-biaya .section-header   { border-left-color: #3fb950 !important; }
+
+      .section-icon {
+        width: 54px !important; height: 54px !important;
+        border-radius: 14px !important; font-size: 26px !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.35) !important; flex-shrink: 0 !important;
+      }
+      .section-title { font-size: 22px !important; font-weight: 800 !important; color: #e6edf3 !important; }
+      .section-subtitle { font-size: 13px !important; color: #8b949e !important; margin-top: 4px !important; }
+
+      /* ── Cards ─────────────────────────────────────────────────── */
+      .card {
+        background: #1c2128 !important; border: 1px solid #30363d !important;
+        border-radius: 12px !important; padding: 18px 22px !important;
+        margin-bottom: 14px !important; break-inside: avoid;
+        position: relative; overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+      }
+      .card::before {
+        content: ''; position: absolute; top: 0; left: 0;
+        width: 3px; height: 100%;
+        background: linear-gradient(180deg, #2dd4bf, #58a6ff);
+      }
+      .card-title { font-size: 14px !important; font-weight: 700 !important; color: #e6edf3 !important; margin-bottom: 8px !important; padding-left: 4px !important; }
+      .card-body  { font-size: 13px !important; color: #8b949e !important; line-height: 1.65 !important; padding-left: 4px !important; }
+      .cards-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; margin-bottom: 20px !important; }
+
+      /* ── Role Cards ─────────────────────────────────────────────── */
+      .role-card {
+        background: #1c2128 !important; border: 1px solid #30363d !important;
+        border-radius: 14px !important; padding: 24px !important; break-inside: avoid;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+      }
+      .role-card::before { height: 4px !important; }
+      .role-icon { font-size: 32px !important; margin-bottom: 12px !important; }
+      .role-name { font-size: 18px !important; font-weight: 800 !important; color: #e6edf3 !important; }
+      .role-desc { font-size: 13px !important; color: #8b949e !important; }
+      .role-features li { font-size: 13px !important; color: #8b949e !important; }
+
+      /* ── Steps ──────────────────────────────────────────────────── */
+      .step { break-inside: avoid; margin-bottom: 16px !important; }
+      .step-num {
+        width: 34px !important; height: 34px !important; font-size: 13px !important;
+        box-shadow: 0 0 16px rgba(45,212,191,0.35) !important; flex-shrink: 0 !important;
+      }
+      .step-title { font-size: 14px !important; font-weight: 700 !important; color: #e6edf3 !important; }
+      .step-desc  { font-size: 13px !important; color: #8b949e !important; }
+
+      /* ── Alerts ─────────────────────────────────────────────────── */
+      .alert {
+        border-radius: 10px !important; padding: 14px 18px !important;
+        border-left-width: 4px !important; break-inside: avoid; font-size: 13px !important;
+      }
+      .alert-info    { background: rgba(88,166,255,0.1) !important; border-color: #58a6ff !important; color: #58a6ff !important; }
+      .alert-success { background: rgba(63,185,80,0.1) !important; border-color: #3fb950 !important; color: #7ee787 !important; }
+      .alert-warning { background: rgba(240,136,62,0.1) !important; border-color: #f0883e !important; color: #f0883e !important; }
+      .alert-danger  { background: rgba(248,81,73,0.1) !important; border-color: #f85149 !important; color: #f97583 !important; }
+
+      /* ── Tables ─────────────────────────────────────────────────── */
+      .table-wrapper { border: 1px solid #30363d !important; border-radius: 10px !important; overflow: hidden !important; break-inside: avoid; }
+      thead { background: #22272e !important; }
+      th {
+        padding: 12px 16px !important; font-size: 11px !important; font-weight: 700 !important;
+        letter-spacing: 0.08em !important; color: #2dd4bf !important;
+        text-transform: uppercase !important; background: #22272e !important;
+        border-bottom: 1px solid #30363d !important;
+      }
+      td { padding: 11px 16px !important; font-size: 13px !important; color: #8b949e !important; }
+      tr:nth-child(even) td { background: rgba(255,255,255,0.018) !important; }
+
+      /* ── Feature Grid ───────────────────────────────────────────── */
+      .feature-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+      .feature-item {
+        background: #1c2128 !important; border: 1px solid #30363d !important;
+        border-radius: 10px !important; padding: 16px !important; break-inside: avoid;
+      }
+      .feature-emoji { font-size: 22px !important; margin-bottom: 8px !important; }
+      .feature-name  { font-size: 13px !important; font-weight: 700 !important; color: #e6edf3 !important; }
+      .feature-desc  { font-size: 12px !important; color: #6e7681 !important; }
+
+      /* ── Status Flow ────────────────────────────────────────────── */
+      .status-flow { flex-wrap: wrap !important; gap: 8px !important; }
+      .status-item { font-size: 12px !important; padding: 5px 12px !important; }
+
+      /* ── Hero ───────────────────────────────────────────────────── */
+      .hero {
+        background: linear-gradient(135deg, rgba(45,212,191,0.09), rgba(88,166,255,0.07), rgba(188,140,255,0.05)) !important;
+        border: 1px solid #30363d !important; border-radius: 16px !important;
+        padding: 40px !important; margin-bottom: 36px !important; break-inside: avoid;
+        position: relative; overflow: hidden;
+      }
+      .hero::before {
+        content: ''; position: absolute; top: -50px; right: -50px;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .hero-eyebrow { font-size: 11px !important; color: #2dd4bf !important; letter-spacing: 0.14em !important; }
+      .hero-title { font-size: 32px !important; font-weight: 800 !important; }
+      .hero-title span { background: linear-gradient(90deg, #2dd4bf, #58a6ff) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+      .hero-desc { font-size: 14px !important; color: #8b949e !important; }
+
+      /* ── Code & Typography ──────────────────────────────────────── */
+      code { background: rgba(110,118,129,0.2) !important; color: #2dd4bf !important; font-size: 12px !important; }
+      p  { font-size: 14px !important; color: #8b949e !important; margin-bottom: 10px !important; }
+      h3 { font-size: 17px !important; font-weight: 700 !important; color: #e6edf3 !important; margin: 24px 0 10px !important; }
+      .divider { border-top: 1px solid #30363d !important; margin: 32px 0 !important; }
+      .badge { font-size: 11px !important; padding: 3px 9px !important; }
+
+      /* ── Role Separator / Page Footer ───────────────────────────── */
+      .role-separator {
+        display: block !important; text-align: center;
+        padding: 14px 0 6px; font-size: 10px; font-weight: 700;
+        letter-spacing: 0.2em; text-transform: uppercase; color: #6e7681;
+        border-top: 1px solid rgba(48,54,61,0.7); margin: 36px 0 0;
+      }
+      .pdf-page-footer {
+        display: block !important; text-align: center;
+        padding: 24px 0 16px; font-size: 11px; color: #6e7681;
+        border-top: 1px solid rgba(48,54,61,0.5); margin-top: 48px;
+      }
+    }
+
+    /* ── Responsive ───────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .main { margin-left: 0; }
+      .content { padding: 20px; }
+      .hero { padding: 28px; }
+      .hero-title { font-size: 26px; }
+      .toc-list { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">🚗</div>
+    <div class="brand-text">
+      <span class="brand-title">Sagara Daily Checkup</span>
+      <span class="brand-sub">Manual Book</span>
+    </div>
+  </div>
+  <div style="padding:12px 20px 0;">
+    <span class="sidebar-version">v1.0.0</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-label">Umum</div>
+      <a class="nav-item active" href="#overview">
+        <span class="nav-icon">🏠</span> Gambaran Umum
+      </a>
+      <a class="nav-item" href="#roles">
+        <span class="nav-icon">👥</span> Peran Pengguna
+      </a>
+      <a class="nav-item" href="#login">
+        <span class="nav-icon">🔑</span> Login & Autentikasi
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Admin</div>
+      <a class="nav-item" href="#admin-dashboard">
+        <span class="nav-icon">📊</span> Dashboard Admin
+      </a>
+      <a class="nav-item" href="#admin-kendaraan">
+        <span class="nav-icon">🚙</span> Manajemen Kendaraan
+      </a>
+      <a class="nav-item" href="#admin-pengajuan">
+        <span class="nav-icon">🔧</span> Pengajuan Perbaikan
+      </a>
+      <a class="nav-item" href="#admin-towing">
+        <span class="nav-icon">🚛</span> Pengajuan Towing
+      </a>
+      <a class="nav-item" href="#admin-bensin">
+        <span class="nav-icon">⛽</span> Laporan Bensin
+      </a>
+      <a class="nav-item" href="#admin-biaya">
+        <span class="nav-icon">💰</span> Laporan Biaya
+      </a>
+      <a class="nav-item" href="#admin-genkey">
+        <span class="nav-icon">🗝️</span> Generate Key
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Driver</div>
+      <a class="nav-item" href="#driver-dashboard">
+        <span class="nav-icon">🏁</span> Dashboard Driver
+      </a>
+      <a class="nav-item" href="#driver-report">
+        <span class="nav-icon">📋</span> Laporan Kerusakan
+      </a>
+      <a class="nav-item" href="#driver-bensin">
+        <span class="nav-icon">🧾</span> Upload Struk Bensin
+      </a>
+      <a class="nav-item" href="#driver-towing">
+        <span class="nav-icon">📍</span> Request Towing
+      </a>
+      <a class="nav-item" href="#driver-ai">
+        <span class="nav-icon">🤖</span> Sagara AI
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Mekanik</div>
+      <a class="nav-item" href="#mekanik-dashboard">
+        <span class="nav-icon">🔩</span> Dashboard Mekanik
+      </a>
+      <a class="nav-item" href="#mekanik-detail">
+        <span class="nav-icon">🛠️</span> Detail Kerusakan
+      </a>
+      <a class="nav-item" href="#mekanik-bill">
+        <span class="nav-icon">📄</span> Buat Bill
+      </a>
+      <a class="nav-item" href="#mekanik-ai">
+        <span class="nav-icon">🤖</span> Sagara AI
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Referensi</div>
+      <a class="nav-item" href="#status-flow">
+        <span class="nav-icon">🔄</span> Alur Status
+      </a>
+      <a class="nav-item" href="#faq">
+        <span class="nav-icon">❓</span> FAQ
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    © 2024 Sagara Daily Checkup<br>
+    Dibuat untuk keperluan akademik
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════════ -->
+<!-- ── PDF Cover Page (only visible in PDF/print) ─────────────── -->
+<div class="pdf-cover">
+  <div class="pdf-cover-bg"></div>
+  <div class="pdf-cover-grid"></div>
+  <div class="pdf-cover-content">
+    <div class="pdf-cover-logo">🚗</div>
+    <div class="pdf-cover-eyebrow">Panduan Pengguna · v1.0.0</div>
+    <div class="pdf-cover-title">Sagara Daily Checkup</div>
+    <div class="pdf-cover-subtitle">Manual Book</div>
+    <div class="pdf-cover-divider"></div>
+    <div class="pdf-cover-desc">
+      Sistem manajemen armada kendaraan terintegrasi untuk Admin, Driver, dan Mekanik.
+      Memantau kondisi kendaraan, perbaikan, bahan bakar, towing, dan AI assistant secara real-time.
+    </div>
+    <div class="pdf-cover-badges">
+      <span class="pdf-cover-badge teal">🚗 Manajemen Armada</span>
+      <span class="pdf-cover-badge blue">🔧 Perbaikan Kendaraan</span>
+      <span class="pdf-cover-badge purple">⛽ Reimburs Bensin</span>
+      <span class="pdf-cover-badge orange">🚛 Towing</span>
+      <span class="pdf-cover-badge green">🤖 Sagara AI</span>
+    </div>
+  </div>
+  <div class="pdf-cover-footer">
+    <span>© 2024 Sagara Daily Checkup</span>
+    <span>Laravel + Inertia.js (React)</span>
+    <span>Dibuat untuk keperluan akademik</span>
+  </div>
+</div>
+
+<div class="main">
+  <div class="top-bar">
+    <span class="top-bar-title">📖 Manual Book – Sagara Daily Checkup</span>
+    <div class="top-bar-right">
+      <span class="badge badge-teal">v1.0</span>
+      <span class="badge badge-blue">Bahasa Indonesia</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── HERO ───────────────────────────────────── -->
+    <div class="hero" id="overview">
+      <div class="hero-eyebrow">Manual Book – Panduan Pengguna</div>
+      <h1 class="hero-title">Sagara <span>Daily Checkup</span></h1>
+      <p class="hero-desc">
+        Sistem manajemen armada kendaraan yang terintegrasi untuk memantau kondisi kendaraan, mengelola perbaikan, pengisian bahan bakar, dan permintaan towing secara real-time.
+      </p>
+      <div class="hero-tags">
+        <span class="badge badge-teal">🚗 Manajemen Armada</span>
+        <span class="badge badge-blue">🔧 Perbaikan Kendaraan</span>
+        <span class="badge badge-purple">⛽ Reimburs Bensin</span>
+        <span class="badge badge-orange">🚛 Towing</span>
+        <span class="badge badge-green">🤖 AI Assistant</span>
+      </div>
+    </div>
+
+    <!-- ── TABLE OF CONTENTS ───────────────────────── -->
+    <div class="toc-box">
+      <div class="toc-title">📌 Daftar Isi</div>
+      <ul class="toc-list">
+        <li><a href="#overview">1. Gambaran Umum</a></li>
+        <li><a href="#roles">2. Peran Pengguna</a></li>
+        <li><a href="#login">3. Login & Autentikasi</a></li>
+        <li><a href="#admin-dashboard">4. Dashboard Admin</a></li>
+        <li><a href="#admin-kendaraan">5. Manajemen Kendaraan</a></li>
+        <li><a href="#admin-pengajuan">6. Pengajuan Perbaikan</a></li>
+        <li><a href="#admin-towing">7. Pengajuan Towing (Admin)</a></li>
+        <li><a href="#admin-bensin">8. Laporan Bensin</a></li>
+        <li><a href="#admin-biaya">9. Laporan Biaya</a></li>
+        <li><a href="#admin-genkey">10. Generate Key</a></li>
+        <li><a href="#driver-dashboard">11. Dashboard Driver</a></li>
+        <li><a href="#driver-report">12. Laporan Kerusakan</a></li>
+        <li><a href="#driver-bensin">13. Upload Struk Bensin</a></li>
+        <li><a href="#driver-towing">14. Request Towing</a></li>
+        <li><a href="#driver-ai">15. Sagara AI (Driver)</a></li>
+        <li><a href="#mekanik-dashboard">16. Dashboard Mekanik</a></li>
+        <li><a href="#mekanik-detail">17. Detail Kerusakan</a></li>
+        <li><a href="#mekanik-bill">18. Buat Bill Perbaikan</a></li>
+        <li><a href="#mekanik-ai">19. Sagara AI (Mekanik)</a></li>
+        <li><a href="#status-flow">20. Alur Status Kendaraan</a></li>
+        <li><a href="#faq">21. FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         SECTION 1: GAMBARAN UMUM
+    ════════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🏠</div>
+        <div>
+          <div class="section-title">1. Gambaran Umum Sistem</div>
+          <div class="section-subtitle">Apa itu Sagara Daily Checkup?</div>
+        </div>
+      </div>
+
+      <p>
+        <strong>Sagara Daily Checkup</strong> adalah aplikasi web berbasis <strong>Laravel + Inertia.js (React)</strong> yang dirancang untuk membantu perusahaan dalam mengelola armada kendaraan operasional secara efisien. Sistem ini menghubungkan tiga peran utama — <strong>Admin</strong>, <strong>Driver</strong>, dan <strong>Mekanik</strong> — dalam satu platform terintegrasi.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-emoji">🚗</div>
+          <div class="feature-name">Manajemen Kendaraan</div>
+          <div class="feature-desc">Daftarkan & kelola armada kendaraan beserta pengemudi</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-emoji">🔧</div>
+          <div class="feature-name">Pengajuan Perbaikan</div>
+          <div class="feature-desc">Driver melaporkan kerusakan, Admin menugaskan ke Mekanik</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-emoji">⛽</div>
+          <div class="feature-name">Reimburs Bensin</div>
+          <div class="feature-desc">Driver upload struk bensin untuk diproses reimburse</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-emoji">🚛</div>
+          <div class="feature-name">Request Towing</div>
+          <div class="feature-desc">Permintaan towing dengan lokasi GPS terintegrasi</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-emoji">🤖</div>
+          <div class="feature-name">Sagara AI</div>
+          <div class="feature-desc">Asisten AI untuk diagnosa kerusakan kendaraan</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-emoji">💰</div>
+          <div class="feature-name">Laporan Biaya</div>
+          <div class="feature-desc">Pantau semua pengeluaran perbaikan kendaraan</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>💡 Teknologi:</strong> Aplikasi dibangun dengan Laravel (backend), Inertia.js + React (frontend), dan database relasional. Autentikasi menggunakan sistem <code>username + key</code> 8 karakter.
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         SECTION 2: PERAN PENGGUNA
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="roles">
+      <div class="section-header">
+        <div class="section-icon icon-blue">👥</div>
+        <div>
+          <div class="section-title">2. Peran Pengguna</div>
+          <div class="section-subtitle">Tiga jenis pengguna dalam sistem</div>
+        </div>
+      </div>
+
+      <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+        <div class="role-card admin">
+          <div class="role-icon">👨‍💼</div>
+          <div class="role-name">Admin</div>
+          <div class="role-desc">Superuser yang mengontrol seluruh operasional sistem.</div>
+          <ul class="role-features">
+            <li>Kelola data kendaraan & pengemudi</li>
+            <li>Setujui & tugaskan pengajuan perbaikan</li>
+            <li>Pantau pengajuan towing</li>
+            <li>Proses reimburse bensin driver</li>
+            <li>Lihat laporan biaya perbaikan</li>
+            <li>Generate key akun pengguna</li>
+            <li>Update foto profil & logo aplikasi</li>
+          </ul>
+        </div>
+
+        <div class="role-card driver">
+          <div class="role-icon">🚘</div>
+          <div class="role-name">Driver</div>
+          <div class="role-desc">Pengemudi yang mengoperasikan kendaraan perusahaan.</div>
+          <ul class="role-features">
+            <li>Lihat status kendaraan yang ditugaskan</li>
+            <li>Laporan kerusakan kendaraan</li>
+            <li>Upload struk bensin untuk reimburse</li>
+            <li>Request towing dengan lokasi GPS</li>
+            <li>Gunakan Sagara AI untuk diagnosa</li>
+            <li>Batalkan pengajuan yang belum diproses</li>
+          </ul>
+        </div>
+
+        <div class="role-card mekanik">
+          <div class="role-icon">🔨</div>
+          <div class="role-name">Mekanik</div>
+          <div class="role-desc">Teknisi yang menangani perbaikan kendaraan.</div>
+          <ul class="role-features">
+            <li>Lihat daftar tugas perbaikan</li>
+            <li>Tandai status kerja (Perbaikan / Pending)</li>
+            <li>Buat bill/tagihan setelah perbaikan selesai</li>
+            <li>Konsultasi dengan Sagara AI</li>
+            <li>Atur ketersediaan diri (Available/Full)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Fitur</th>
+              <th>Admin</th>
+              <th>Driver</th>
+              <th>Mekanik</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Kelola kendaraan</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Laporan kerusakan</td><td>🔍 Lihat</td><td>✅ Buat</td><td>🔍 Kerjakan</td></tr>
+            <tr><td>Approve perbaikan</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Upload struk bensin</td><td>❌</td><td>✅</td><td>❌</td></tr>
+            <tr><td>Proses reimburse</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Request towing</td><td>❌</td><td>✅</td><td>❌</td></tr>
+            <tr><td>Pantau towing</td><td>✅</td><td>🔍 Milik sendiri</td><td>❌</td></tr>
+            <tr><td>Generate key user</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Buat bill perbaikan</td><td>❌</td><td>❌</td><td>✅</td></tr>
+            <tr><td>Sagara AI</td><td>❌</td><td>✅</td><td>✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         SECTION 3: LOGIN
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="login">
+      <div class="section-header">
+        <div class="section-icon icon-green">🔑</div>
+        <div>
+          <div class="section-title">3. Login & Autentikasi</div>
+          <div class="section-subtitle">Cara masuk ke sistem sesuai peran</div>
+        </div>
+      </div>
+
+      <p>Sistem Sagara Daily Checkup menggunakan kombinasi <strong>Username</strong> dan <strong>Key</strong> (bukan password biasa) untuk login. Key adalah kode unik 8 karakter yang digenerate oleh Admin.</p>
+
+      <div class="alert alert-info">
+        <strong>📌 URL Login:</strong><br>
+        • Admin: <code>/admin/login</code><br>
+        • Driver: <code>/driver/login</code><br>
+        • Mekanik: <code>/mekanik/login</code>
+      </div>
+
+      <h3>Langkah-langkah Login</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Buka URL login sesuai peran</div>
+            <div class="step-desc">Akses halaman login yang sesuai dengan peran Anda (Admin, Driver, atau Mekanik). Halaman utama (<code>/</code>) akan menampilkan pilihan peran.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Masukkan Username</div>
+            <div class="step-desc">Masukkan username yang telah diberikan oleh Admin. Username bersifat unik untuk setiap pengguna.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Masukkan Key (8 Karakter)</div>
+            <div class="step-desc">Masukkan Key unik 8 karakter yang diberikan oleh Admin. Key bersifat case-insensitive (sistem akan mengkonversi ke huruf besar). Jangan bagikan Key kepada siapapun.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Klik tombol Login</div>
+            <div class="step-desc">Jika Username dan Key benar, Anda akan diarahkan ke dashboard sesuai peran Anda.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Penting:</strong> Jika login gagal, pastikan Key sudah tepat 8 karakter. Hubungi Admin jika Anda lupa Key atau belum memiliki akun.
+      </div>
+
+      <h3>Logout</h3>
+      <p>Untuk keluar dari sistem, klik tombol <strong>Logout</strong> yang tersedia di menu profil atau sidebar. Setelah logout, sesi Anda akan dihapus dan Anda akan diarahkan kembali ke halaman login.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ════════════════════════════════════════════
+         ADMIN SECTIONS
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="admin-dashboard">
+      <div class="section-header">
+        <div class="section-icon icon-teal">📊</div>
+        <div>
+          <div class="section-title">4. Dashboard Admin</div>
+          <div class="section-subtitle">Pusat kendali & monitoring sistem</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Dashboard Admin menampilkan ringkasan kondisi operasional kendaraan secara keseluruhan dalam satu tampilan.</p>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">📈 Total Pengajuan</div>
+          <div class="card-body">Jumlah pengajuan perbaikan yang masuk di bulan berjalan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Perbaikan Selesai</div>
+          <div class="card-body">Jumlah perbaikan yang sudah diselesaikan (ada bill-nya) bulan ini.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⏳ Pending Review</div>
+          <div class="card-body">Pengajuan perbaikan yang belum ditugaskan ke mekanik manapun.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">💰 Total Biaya</div>
+          <div class="card-body">Total biaya perbaikan yang dikeluarkan bulan ini (dalam Ribu/Juta rupiah).</div>
+        </div>
+      </div>
+
+      <h3>Fitur Dashboard</h3>
+      <ul class="steps" style="list-style:none;">
+        <li class="step">
+          <div class="step-num">📊</div>
+          <div class="step-content">
+            <div class="step-title">Grafik Pengajuan 7 Hari</div>
+            <div class="step-desc">Grafik batang yang menampilkan jumlah pengajuan perbaikan per hari dalam 7 hari terakhir untuk memantau tren.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">🕐</div>
+          <div class="step-content">
+            <div class="step-title">Aktivitas Terbaru</div>
+            <div class="step-desc">Feed aktivitas real-time: pengajuan perbaikan baru, perbaikan yang disetujui, dan laporan biaya yang dibuat — diurutkan dari terbaru.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">🖼️</div>
+          <div class="step-content">
+            <div class="step-title">Update Profil & Logo</div>
+            <div class="step-desc">Admin dapat mengganti foto profil dan logo aplikasi. Logo dapat direset ke tampilan default jika diperlukan.</div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-kendaraan">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🚙</div>
+        <div>
+          <div class="section-title">5. Manajemen Kendaraan</div>
+          <div class="section-subtitle">Daftarkan dan kelola armada kendaraan</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Menu <strong>Manajemen Kendaraan</strong> (<code>/admin/kendaraan</code>) memungkinkan Admin mendaftarkan, memperbarui, dan menghapus data kendaraan yang terdaftar dalam sistem.</p>
+
+      <h3>Menambah Kendaraan Baru</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Klik tombol "Tambah Kendaraan"</div>
+            <div class="step-desc">Tombol ini terdapat di bagian atas halaman manajemen kendaraan.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Isi form data kendaraan</div>
+            <div class="step-desc">
+              <strong>Merek</strong> – Nama merek/tipe kendaraan (contoh: Toyota Avanza)<br>
+              <strong>Plat Nomor</strong> – Nomor plat unik kendaraan (contoh: B 1234 ABC)<br>
+              <strong>Driver</strong> – Pilih pengemudi yang ditugaskan (opsional; 1 driver hanya bisa punya 1 kendaraan)<br>
+              <strong>Foto Kendaraan</strong> – Upload foto kendaraan (JPG/PNG, maks. 2MB, opsional)
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Simpan data</div>
+            <div class="step-desc">Klik <strong>Simpan</strong>. Sistem akan menampilkan notifikasi sukses dan kendaraan muncul di daftar.</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Edit & Hapus Kendaraan</h3>
+      <div class="card">
+        <div class="card-title">✏️ Edit Kendaraan</div>
+        <div class="card-body">Klik ikon edit pada baris kendaraan. Ubah data yang diperlukan lalu klik Simpan. Foto baru akan menggantikan foto lama secara otomatis.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🗑️ Hapus Kendaraan</div>
+        <div class="card-body">Klik ikon hapus pada baris kendaraan. Konfirmasi penghapusan. Data kendaraan dan foto yang tersimpan akan dihapus permanen dari sistem.</div>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Catatan:</strong> Satu driver hanya dapat memiliki <strong>satu kendaraan</strong>. Jika ingin menugaskan driver yang sama ke kendaraan lain, hapus terlebih dahulu kendaraan yang sudah ditugaskan sebelumnya.
+      </div>
+
+      <h3>Pencarian Kendaraan</h3>
+      <p>Gunakan kolom pencarian di bagian atas untuk mencari kendaraan berdasarkan <strong>merek</strong>, <strong>plat nomor</strong>, atau <strong>nama driver</strong>. Hasil akan difilter secara otomatis.</p>
+
+      <h3>Status Kendaraan</h3>
+      <div class="status-flow">
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">🟢 Normal</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(240,136,62,0.12);color:#f0883e;border-color:rgba(240,136,62,0.3);">🟠 Pengajuan Perbaikan</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(88,166,255,0.12);color:#58a6ff;border-color:rgba(88,166,255,0.3);">🔵 Perbaikan</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(188,140,255,0.12);color:#bc8cff;border-color:rgba(188,140,255,0.3);">🟣 Pending</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">🟢 Normal</span>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-pengajuan">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🔧</div>
+        <div>
+          <div class="section-title">6. Pengajuan Perbaikan</div>
+          <div class="section-subtitle">Review dan tugaskan ke mekanik</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Halaman ini (<code>/admin/pengajuan-perbaikan</code>) menampilkan semua pengajuan perbaikan kendaraan yang masuk dari Driver. Admin bertugas mereview dan menugaskan ke Mekanik yang tersedia.</p>
+
+      <h3>Tab Pengajuan Menunggu Persetujuan</h3>
+      <p>Tab pertama menampilkan pengajuan yang <strong>belum ditugaskan</strong> ke mekanik manapun.</p>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Tinjau detail pengajuan</div>
+            <div class="step-desc">Lihat informasi: nama driver, plat nomor, merek kendaraan, daftar kendala (nama & deskripsi kerusakan), dan catatan tambahan dari driver.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Pilih Mekanik</div>
+            <div class="step-desc">Pilih mekanik yang tersedia (<strong>status Available</strong>) dari dropdown. Hanya mekanik dengan status Available yang dapat dipilih.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Klik "Setujui & Tugaskan"</div>
+            <div class="step-desc">Sistem akan membuat record penugasan dan mengubah status kendaraan menjadi <strong>Perbaikan</strong>. Mekanik akan melihat tugas ini di dashboard mereka.</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Tab Daftar Perbaikan (Sedang Dikerjakan)</h3>
+      <p>Tab kedua menampilkan semua penugasan perbaikan yang sedang berjalan, termasuk informasi kendaraan, driver, mekanik yang bertugas, dan daftar kendala yang perlu diperbaiki.</p>
+
+      <div class="alert alert-info">
+        <strong>ℹ️ Info:</strong> Setelah mekanik menyelesaikan perbaikan dan membuat bill, kendaraan akan otomatis kembali ke status <strong>Normal</strong> dan tidak lagi muncul di daftar ini.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-towing">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🚛</div>
+        <div>
+          <div class="section-title">7. Pengajuan Towing (Admin)</div>
+          <div class="section-subtitle">Pantau dan proses permintaan towing driver</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Halaman ini (<code>/admin/pengajuan-towing</code>) menampilkan semua permintaan towing dari driver yang perlu diproses oleh Admin.</p>
+
+      <h3>Alur Pemrosesan Towing</h3>
+      <div class="status-flow">
+        <span class="status-item" style="background:rgba(240,136,62,0.12);color:#f0883e;border-color:rgba(240,136,62,0.3);">🟠 Pending</span>
+        <span class="status-arrow">→ Tandai Diproses →</span>
+        <span class="status-item" style="background:rgba(88,166,255,0.12);color:#58a6ff;border-color:rgba(88,166,255,0.3);">🔵 Diproses</span>
+        <span class="status-arrow">→ Tandai Selesai →</span>
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">🟢 Selesai</span>
+      </div>
+
+      <h3>Langkah Proses Towing</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Tinjau detail permintaan</div>
+            <div class="step-desc">Lihat informasi: nama driver, lokasi penjemputan, koordinat GPS (jika tersedia), dan keterangan tambahan dari driver.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Klik "Tandai Diproses"</div>
+            <div class="step-desc">Mengubah status towing ke <strong>Diproses</strong>. Sistem otomatis mengubah status kendaraan driver menjadi <strong>Pengajuan Perbaikan</strong> dan mencatat kendala "Pengajuan Towing" dalam sistem.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Klik "Tandai Selesai"</div>
+            <div class="step-desc">Setelah kendaraan berhasil ditowing ke bengkel, tandai pengajuan sebagai Selesai.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-info">
+        <strong>ℹ️ Otomasi:</strong> Ketika Admin menandai towing sebagai "Diproses", sistem secara otomatis membuat laporan kerusakan untuk kendaraan driver tersebut agar bisa diproses perbaikannya.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-bensin">
+      <div class="section-header">
+        <div class="section-icon icon-orange">⛽</div>
+        <div>
+          <div class="section-title">8. Laporan Bensin</div>
+          <div class="section-subtitle">Proses reimburse struk bensin driver</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Halaman ini (<code>/admin/laporan-bensin</code>) menampilkan semua struk bensin yang diupload oleh driver dan menunggu proses reimburse dari Admin.</p>
+
+      <h3>Cara Memproses Reimburse</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Cari pengajuan struk</div>
+            <div class="step-desc">Gunakan kolom pencarian untuk mencari berdasarkan nama driver, username, nama bank/e-wallet, atau nomor rekening.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Tinjau detail struk bensin</div>
+            <div class="step-desc">Lihat foto struk bensin yang diupload driver, informasi bank/e-wallet tujuan, dan nomor rekening.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Upload bukti reimburse</div>
+            <div class="step-desc">Upload foto bukti transfer/reimburse (JPG/PNG, maks. 2MB). Klik tombol <strong>Proses Reimburse</strong>.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Reimburse selesai</div>
+            <div class="step-desc">Pengajuan akan ditandai sebagai selesai direimburse. Driver dapat melihat status pengajuannya berubah.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Catatan:</strong> Setelah reimburse diproses, status tidak dapat diubah kembali. Pastikan bukti transfer yang diupload sudah benar.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-biaya">
+      <div class="section-header">
+        <div class="section-icon icon-green">💰</div>
+        <div>
+          <div class="section-title">9. Laporan Biaya</div>
+          <div class="section-subtitle">Pantau semua pengeluaran perbaikan kendaraan</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Halaman ini (<code>/admin/laporan-biaya</code>) menampilkan seluruh bill perbaikan yang telah dibuat oleh mekanik, lengkap dengan detail biaya per item dan total keseluruhan.</p>
+
+      <h3>Informasi yang Ditampilkan</h3>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">🚗 Identitas Kendaraan</div>
+          <div class="card-body">Merek kendaraan, plat nomor, dan nama driver pemilik kendaraan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔨 Identitas Mekanik</div>
+          <div class="card-body">Nama mekanik yang melakukan perbaikan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Detail Biaya</div>
+          <div class="card-body">Rincian biaya per item perbaikan (nama, nominal, dan sparepart yang digunakan).</div>
+        </div>
+        <div class="card">
+          <div class="card-title">💵 Total Biaya</div>
+          <div class="card-body">Total keseluruhan biaya perbaikan dan bukti bill (foto) jika ada.</div>
+        </div>
+      </div>
+
+      <h3>Pencarian</h3>
+      <p>Gunakan fitur pencarian untuk memfilter laporan berdasarkan <strong>merek kendaraan</strong>, <strong>plat nomor</strong>, <strong>nama driver</strong>, <strong>nama mekanik</strong>, atau <strong>nominal biaya</strong>.</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="admin-genkey">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🗝️</div>
+        <div>
+          <div class="section-title">10. Generate Key (Manajemen User)</div>
+          <div class="section-subtitle">Kelola akun pengguna sistem</div>
+        </div>
+      </div>
+      <span class="badge badge-teal" style="margin-bottom:16px;display:inline-block;">Khusus Admin</span>
+
+      <p>Halaman Generate Key (<code>/admin/generate-key</code>) digunakan Admin untuk membuat dan mengelola akun pengguna (Admin, Driver, Mekanik) beserta key login mereka.</p>
+
+      <div class="alert alert-danger">
+        <strong>🔒 Keamanan:</strong> Modul ini sangat sensitif. Hanya Admin yang berwenang mengakses fitur ini. Jangan bagikan key pengguna kepada pihak yang tidak berwenang.
+      </div>
+
+      <h3>Membuat Akun User Baru</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Klik "Tambah User"</div>
+            <div class="step-desc">Buka form tambah user baru.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Isi data user</div>
+            <div class="step-desc">
+              <strong>Username</strong> – Nama pengguna unik (tidak boleh sama dengan user lain)<br>
+              <strong>Peran</strong> – Pilih: Admin, Mekanik, atau Driver<br>
+              <strong>Key</strong> – Kode akses unik <strong>tepat 8 karakter</strong> (huruf dan/atau angka)
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Simpan & bagikan key ke pengguna</div>
+            <div class="step-desc">Simpan data user. Catat dan berikan key kepada pengguna yang bersangkutan secara aman (jangan via platform publik).</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Filter & Pencarian User</h3>
+      <p>Gunakan kolom pencarian untuk mencari berdasarkan <strong>username</strong> atau <strong>key</strong>. Gunakan filter <strong>Peran</strong> untuk menampilkan hanya Admin, Driver, atau Mekanik saja.</p>
+
+      <h3>Edit & Hapus User</h3>
+      <div class="card">
+        <div class="card-title">✏️ Edit User</div>
+        <div class="card-body">Klik ikon edit untuk mengubah username, peran, atau key pengguna. Perubahan key akan mengharuskan pengguna login ulang dengan key baru.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🗑️ Hapus User</div>
+        <div class="card-body">Klik ikon hapus untuk menghapus akun pengguna. Pengguna yang dihapus tidak dapat login lagi. Pertimbangkan dampaknya terhadap data terkait sebelum menghapus.</div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ════════════════════════════════════════════
+         DRIVER SECTIONS
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="driver-dashboard">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🏁</div>
+        <div>
+          <div class="section-title">11. Dashboard Driver</div>
+          <div class="section-subtitle">Pantau status kendaraan Anda</div>
+        </div>
+      </div>
+      <span class="badge badge-purple" style="margin-bottom:16px;display:inline-block;">Khusus Driver</span>
+
+      <p>Dashboard Driver (<code>/driver/dashboard</code>) adalah halaman utama yang menampilkan informasi kendaraan yang ditugaskan kepada Anda beserta statusnya saat ini.</p>
+
+      <h3>Informasi di Dashboard</h3>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">🚗 Info Kendaraan</div>
+          <div class="card-body">Merek, plat nomor, foto kendaraan, dan status terkini kendaraan yang ditugaskan kepada Anda.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Laporan Kerusakan Aktif</div>
+          <div class="card-body">Detail laporan kerusakan yang sedang aktif (jika ada), termasuk daftar kendala dan catatan yang dikirimkan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔄 Aksi Cepat</div>
+          <div class="card-body">Tombol untuk melaporkan kerusakan, membatalkan pengajuan, atau mengedit laporan (jika status masih Pengajuan).</div>
+        </div>
+      </div>
+
+      <h3>Aksi yang Tersedia</h3>
+      <div class="card">
+        <div class="card-title">📝 Edit Laporan (Status: Pengajuan Perbaikan)</div>
+        <div class="card-body">Selama status kendaraan masih "Pengajuan Perbaikan" (belum disetujui Admin), Anda dapat mengedit catatan dan daftar kendala yang sudah diajukan.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">❌ Batalkan Pengajuan (Status: Pengajuan Perbaikan)</div>
+        <div class="card-body">Jika ingin membatalkan pengajuan, klik tombol "Batalkan Pengajuan". Status kendaraan akan kembali ke Normal dan laporan kerusakan akan dihapus.</div>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Perhatian:</strong> Setelah Admin menyetujui pengajuan (status berubah ke "Perbaikan"), Anda tidak dapat lagi membatalkan atau mengedit laporan tersebut.
+      </div>
+
+      <h3>Update Foto Profil</h3>
+      <p>Driver dapat memperbarui foto profil melalui menu pengaturan profil di dashboard. Format yang didukung: JPG, PNG, GIF (maks. 2MB).</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="driver-report">
+      <div class="section-header">
+        <div class="section-icon icon-orange">📋</div>
+        <div>
+          <div class="section-title">12. Laporan Kerusakan</div>
+          <div class="section-subtitle">Melaporkan kerusakan kendaraan ke sistem</div>
+        </div>
+      </div>
+      <span class="badge badge-purple" style="margin-bottom:16px;display:inline-block;">Khusus Driver</span>
+
+      <p>Gunakan halaman Laporan Kerusakan (<code>/driver/report</code>) untuk melaporkan kondisi kendaraan yang bermasalah kepada Admin dan Mekanik.</p>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Syarat:</strong> Anda hanya dapat membuat laporan kerusakan jika kendaraan Anda saat ini berstatus <strong>Normal</strong>. Jika sudah ada pengajuan aktif, selesaikan atau batalkan terlebih dahulu.
+      </div>
+
+      <h3>Cara Membuat Laporan Kerusakan</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Akses halaman Laporan</div>
+            <div class="step-desc">Klik menu "Laporan Kerusakan" atau tombol "Laporkan Kerusakan" dari dashboard.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Tambahkan kendala</div>
+            <div class="step-desc">
+              Untuk setiap kendala, isi:<br>
+              • <strong>Nama Kendala</strong> – Jenis kerusakan (contoh: "Ban bocor", "AC tidak dingin")<br>
+              • <strong>Deskripsi</strong> – Keterangan lebih detail tentang kerusakan<br>
+              Klik tombol <strong>"+ Tambah Kendala"</strong> untuk menambahkan lebih dari satu kendala.
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Tambahkan catatan (opsional)</div>
+            <div class="step-desc">Isi kolom catatan jika ada informasi tambahan yang perlu disampaikan ke Admin atau Mekanik.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Submit laporan</div>
+            <div class="step-desc">Klik <strong>"Kirim Laporan"</strong>. Status kendaraan Anda akan berubah menjadi <strong>"Pengajuan Perbaikan"</strong> dan laporan akan masuk ke antrian Admin.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-success">
+        <strong>✅ Tips:</strong> Gunakan fitur <strong>Sagara AI</strong> untuk mendapatkan bantuan diagnosa kerusakan sebelum mengisi laporan secara manual.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="driver-bensin">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🧾</div>
+        <div>
+          <div class="section-title">13. Upload Struk Bensin</div>
+          <div class="section-subtitle">Pengajuan reimburse bahan bakar</div>
+        </div>
+      </div>
+      <span class="badge badge-purple" style="margin-bottom:16px;display:inline-block;">Khusus Driver</span>
+
+      <p>Halaman Upload Struk Bensin (<code>/driver/struk-bensin</code>) memungkinkan Driver mengajukan reimburse untuk pengeluaran bahan bakar kendaraan dinas.</p>
+
+      <h3>Cara Upload Struk Bensin</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Siapkan foto struk</div>
+            <div class="step-desc">Ambil foto struk bensin yang jelas dan terbaca. Format: JPG, PNG, GIF — maksimal <strong>2MB</strong>.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Pilih Bank/E-Wallet Tujuan</div>
+            <div class="step-desc">Pilih bank atau e-wallet tujuan transfer reimburse dari dropdown yang tersedia.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Masukkan Nomor Rekening/E-Wallet</div>
+            <div class="step-desc">Isi nomor rekening atau nomor e-wallet dengan benar. Pastikan data ini akurat karena Admin akan mentransfer ke nomor ini.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Upload & Submit</div>
+            <div class="step-desc">Klik <strong>"Upload Struk"</strong>. Pengajuan akan masuk ke antrian Admin untuk diproses.</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Riwayat Pengajuan</h3>
+      <p>Di bagian bawah halaman, Anda dapat melihat riwayat semua pengajuan struk bensin beserta statusnya:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Status</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-orange">⏳ Menunggu</span></td>
+              <td>Belum diproses Admin</td>
+              <td>Dapat dibatalkan</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">✅ Direimburse</span></td>
+              <td>Sudah diproses & bukti transfer tersedia</td>
+              <td>Lihat bukti transfer</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>ℹ️ Info:</strong> Pengajuan hanya dapat dibatalkan selama masih berstatus <strong>Menunggu</strong>. Setelah Admin memproses reimburse, pengajuan tidak dapat dibatalkan.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="driver-towing">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📍</div>
+        <div>
+          <div class="section-title">14. Request Towing</div>
+          <div class="section-subtitle">Minta bantuan towing kendaraan mogok</div>
+        </div>
+      </div>
+      <span class="badge badge-purple" style="margin-bottom:16px;display:inline-block;">Khusus Driver</span>
+
+      <p>Gunakan halaman Request Towing (<code>/driver/towing</code>) ketika kendaraan Anda mogok atau tidak dapat dikendarai dan membutuhkan bantuan towing.</p>
+
+      <h3>Cara Mengajukan Request Towing</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Klik "Ajukan Towing"</div>
+            <div class="step-desc">Buka form pengajuan towing baru.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Isi Lokasi Saat Ini</div>
+            <div class="step-desc">Masukkan lokasi kendaraan Anda saat ini (nama jalan, patokan, atau alamat lengkap). Maksimal 1000 karakter.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Aktifkan Lokasi GPS (Opsional)</div>
+            <div class="step-desc">Jika tersedia, sistem dapat mendeteksi koordinat GPS Anda secara otomatis untuk memudahkan tim towing menemukan lokasi Anda.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Tambahkan Keterangan (Opsional)</div>
+            <div class="step-desc">Jelaskan kondisi kendaraan atau informasi tambahan yang perlu diketahui tim towing. Maksimal 500 karakter.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Kirim Pengajuan</div>
+            <div class="step-desc">Klik <strong>"Kirim Request Towing"</strong>. Pengajuan akan masuk dengan status <strong>Pending</strong> dan Admin akan segera memprosesnya.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Penting:</strong> Anda hanya dapat memiliki <strong>satu pengajuan towing aktif</strong> pada satu waktu. Batalkan pengajuan yang ada terlebih dahulu sebelum mengajukan yang baru. Pengajuan tidak dapat dibatalkan setelah berstatus "Diproses".
+      </div>
+
+      <h3>Riwayat Towing</h3>
+      <p>Bagian bawah halaman menampilkan riwayat semua pengajuan towing Anda beserta statusnya (Pending, Diproses, Selesai).</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="driver-ai">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🤖</div>
+        <div>
+          <div class="section-title">15. Sagara AI (Driver)</div>
+          <div class="section-subtitle">Asisten AI untuk diagnosa kerusakan kendaraan</div>
+        </div>
+      </div>
+      <span class="badge badge-purple" style="margin-bottom:16px;display:inline-block;">Khusus Driver</span>
+
+      <p>Sagara AI (<code>/driver/tanya-ai</code>) adalah asisten berbasis kecerdasan buatan yang membantu Driver mendiagnosa kerusakan kendaraan melalui percakapan interaktif.</p>
+
+      <h3>Cara Menggunakan Sagara AI</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Buka halaman Sagara AI</div>
+            <div class="step-desc">Akses melalui menu "Sagara AI" di sidebar atau dari dashboard Driver.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Deskripsikan gejala kerusakan</div>
+            <div class="step-desc">Ketik gejala atau keluhan tentang kendaraan Anda dalam bahasa natural. Contoh: "Mesin terasa bergetar dan ada suara aneh saat akselerasi".</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Baca analisis AI</div>
+            <div class="step-desc">Sagara AI akan memberikan kemungkinan penyebab kerusakan dan saran langkah awal yang dapat diambil.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Laporkan ke sistem (opsional)</div>
+            <div class="step-desc">Berdasarkan hasil diagnosa AI, Anda dapat langsung membuat laporan kerusakan resmi ke sistem dengan mengklik tombol <strong>"Laporkan Kerusakan"</strong> dari hasil chat.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-info">
+        <strong>💡 Tips:</strong> Semakin detail gejala yang Anda ceritakan, semakin akurat diagnosis dari Sagara AI. Sebutkan kapan masalah mulai terjadi, kondisi saat itu (macet/jalan tol), dan gejala spesifik yang dirasakan.
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ════════════════════════════════════════════
+         MEKANIK SECTIONS
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="mekanik-dashboard">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🔩</div>
+        <div>
+          <div class="section-title">16. Dashboard Mekanik</div>
+          <div class="section-subtitle">Daftar tugas perbaikan yang ditugaskan</div>
+        </div>
+      </div>
+      <span class="badge badge-orange" style="margin-bottom:16px;display:inline-block;">Khusus Mekanik</span>
+
+      <p>Dashboard Mekanik (<code>/mekanik/dashboard</code>) menampilkan semua tugas perbaikan kendaraan yang ditugaskan kepada Mekanik yang sedang login, beserta riwayat bill yang sudah dibuat.</p>
+
+      <h3>Tab Tugas Aktif</h3>
+      <p>Menampilkan semua penugasan perbaikan yang <strong>belum selesai</strong> (belum ada bill). Setiap kartu tugas menampilkan:</p>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">🚗 Info Kendaraan</div>
+          <div class="card-body">Merek, plat nomor, foto kendaraan yang perlu diperbaiki.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">👤 Info Driver</div>
+          <div class="card-body">Nama/username driver pemilik kendaraan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Daftar Kendala</div>
+          <div class="card-body">Semua kendala yang dilaporkan driver beserta deskripsinya.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔄 Status Kendaraan</div>
+          <div class="card-body">Status saat ini: Perbaikan atau Pending.</div>
+        </div>
+      </div>
+
+      <h3>Aksi dari Dashboard</h3>
+      <div class="card">
+        <div class="card-title">🟣 Tandai "Pending" (Menunggu Sparepart)</div>
+        <div class="card-body">Jika perbaikan perlu menunggu sparepart atau bahan lain, klik "Tandai Pending". Status kendaraan akan berubah menjadi "Pending". Perbaikan tetap bisa dilanjutkan nantinya.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔍 Lihat Detail & Buat Bill</div>
+        <div class="card-body">Klik tombol "Detail" untuk melihat informasi lengkap kerusakan dan membuat bill setelah perbaikan selesai.</div>
+      </div>
+
+      <h3>Atur Ketersediaan</h3>
+      <p>Mekanik dapat mengatur status ketersediaan diri untuk menerima tugas baru:</p>
+      <div class="status-flow">
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">🟢 Available</span>
+        <span class="status-arrow">↔️</span>
+        <span class="status-item" style="background:rgba(248,81,73,0.12);color:#f85149;border-color:rgba(248,81,73,0.3);">🔴 Full (Tidak Tersedia)</span>
+      </div>
+      <p>Jika status <strong>Full</strong>, Admin tidak akan dapat menugaskan pengajuan perbaikan baru kepada Anda.</p>
+
+      <h3>Tab Riwayat Bill</h3>
+      <p>Menampilkan semua bill perbaikan yang sudah Anda buat beserta detail biaya dan kendaraan yang diperbaiki.</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="mekanik-detail">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🛠️</div>
+        <div>
+          <div class="section-title">17. Detail Kerusakan</div>
+          <div class="section-subtitle">Informasi lengkap tugas perbaikan</div>
+        </div>
+      </div>
+      <span class="badge badge-orange" style="margin-bottom:16px;display:inline-block;">Khusus Mekanik</span>
+
+      <p>Halaman Detail Kerusakan (<code>/mekanik/detailkerusakan/{id}</code>) menampilkan informasi lengkap tentang tugas perbaikan spesifik yang ditugaskan kepada Mekanik.</p>
+
+      <h3>Informasi yang Tersedia</h3>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">📸 Foto Kendaraan</div>
+          <div class="card-body">Foto kendaraan yang perlu diperbaiki untuk identifikasi visual.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Daftar Kendala Lengkap</div>
+          <div class="card-body">Semua kendala yang dilaporkan driver beserta deskripsi detail masing-masing kendala.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">📝 Catatan Driver</div>
+          <div class="card-body">Catatan tambahan dari driver yang mungkin relevan untuk proses perbaikan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🚗 Info Lengkap</div>
+          <div class="card-body">Merek, plat nomor, nama driver, dan status kendaraan saat ini.</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>ℹ️ Catatan:</strong> Setelah Anda membuat Bill untuk tugas ini, halaman detail tidak dapat diakses kembali. Pastikan semua perbaikan sudah selesai sebelum membuat Bill.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="mekanik-bill">
+      <div class="section-header">
+        <div class="section-icon icon-green">📄</div>
+        <div>
+          <div class="section-title">18. Buat Bill Perbaikan</div>
+          <div class="section-subtitle">Membuat tagihan setelah perbaikan selesai</div>
+        </div>
+      </div>
+      <span class="badge badge-orange" style="margin-bottom:16px;display:inline-block;">Khusus Mekanik</span>
+
+      <p>Setelah perbaikan kendaraan selesai, Mekanik membuat Bill (<code>/mekanik/bill</code>) yang berisi detail biaya perbaikan. Bill ini akan masuk ke Laporan Biaya Admin.</p>
+
+      <h3>Cara Membuat Bill</h3>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Akses halaman Bill</div>
+            <div class="step-desc">Dari halaman Detail Kerusakan atau Dashboard, klik tombol "Buat Bill".</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Tambahkan item biaya</div>
+            <div class="step-desc">
+              Untuk setiap item perbaikan, isi:<br>
+              • <strong>Keterangan</strong> – Deskripsi pekerjaan/item (contoh: "Ganti oli mesin")<br>
+              • <strong>Nominal</strong> – Biaya dalam rupiah<br>
+              • <strong>Sparepart</strong> – Nama sparepart yang digunakan (opsional)<br>
+              Klik <strong>"+ Tambah Item"</strong> untuk menambahkan lebih banyak item.
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Upload bukti bill (opsional)</div>
+            <div class="step-desc">Upload foto bukti tagihan/nota perbaikan jika ada. Format: JPG, PNG, GIF — maksimal <strong>5MB</strong>.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Tinjau total biaya</div>
+            <div class="step-desc">Pastikan semua item dan total biaya sudah benar sebelum menyimpan.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Submit Bill</div>
+            <div class="step-desc">Klik <strong>"Buat Bill"</strong>. Sistem akan menyimpan bill, menghitung total biaya otomatis, dan mengubah status kendaraan kembali ke <strong>Normal</strong>.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-danger">
+        <strong>🚨 Penting:</strong> Bill hanya dapat dibuat <strong>satu kali</strong> per penugasan perbaikan. Pastikan semua detail biaya sudah benar dan lengkap sebelum menyimpan, karena tidak ada fitur edit bill setelah tersimpan.
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────── -->
+    <section class="section" id="mekanik-ai">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🤖</div>
+        <div>
+          <div class="section-title">19. Sagara AI (Mekanik)</div>
+          <div class="section-subtitle">Konsultasi teknis dengan AI untuk diagnosa lebih akurat</div>
+        </div>
+      </div>
+      <span class="badge badge-orange" style="margin-bottom:16px;display:inline-block;">Khusus Mekanik</span>
+
+      <p>Sagara AI untuk Mekanik (<code>/mekanik/tanya-ai</code>) dirancang khusus untuk membantu Mekanik mendapatkan saran teknis dan diagnosa lebih mendalam terkait kerusakan kendaraan yang sedang ditangani.</p>
+
+      <h3>Keunggulan untuk Mekanik</h3>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">📋 Konteks Otomatis</div>
+          <div class="card-body">AI mengetahui detail kerusakan dari tugas yang sedang Anda tangani, memberikan saran yang lebih relevan dan spesifik.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔧 Saran Teknis</div>
+          <div class="card-body">Dapatkan panduan teknis perbaikan, rekomendasi sparepart, dan estimasi langkah kerja yang diperlukan.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">💬 Chat Interaktif</div>
+          <div class="card-body">Tanyakan pertanyaan lanjutan untuk mendapatkan penjelasan lebih detail dari AI.</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>💡 Tips:</strong> Sagara AI untuk Mekanik menampilkan semua tugas perbaikan aktif Anda di panel konteks. Pilih tugas yang relevan saat berdiskusi untuk mendapatkan saran yang lebih akurat.
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ════════════════════════════════════════════
+         ALUR STATUS KENDARAAN
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="status-flow">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🔄</div>
+        <div>
+          <div class="section-title">20. Alur Status Kendaraan</div>
+          <div class="section-subtitle">Siklus lengkap status kendaraan dalam sistem</div>
+        </div>
+      </div>
+
+      <p>Setiap kendaraan dalam sistem memiliki status yang berubah mengikuti alur proses perbaikan. Berikut adalah penjelasan lengkap setiap status dan transisinya.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Keterangan</th>
+              <th>Pemicu</th>
+              <th>Oleh</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-green">🟢 Normal</span></td>
+              <td>Kendaraan beroperasi normal, tidak ada pengajuan aktif</td>
+              <td>Status awal / Setelah bill dibuat</td>
+              <td>Sistem</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-orange">🟠 Pengajuan Perbaikan</span></td>
+              <td>Driver telah mengajukan laporan kerusakan, menunggu persetujuan Admin</td>
+              <td>Driver submit laporan / Towing diproses Admin</td>
+              <td>Driver / Sistem</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-blue">🔵 Perbaikan</span></td>
+              <td>Pengajuan sudah disetujui Admin dan ditugaskan ke Mekanik</td>
+              <td>Admin approve & assign mekanik</td>
+              <td>Admin</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-purple">🟣 Pending</span></td>
+              <td>Perbaikan ditunda sementara (menunggu sparepart/bahan)</td>
+              <td>Mekanik klik "Tandai Pending"</td>
+              <td>Mekanik</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">🟢 Normal</span></td>
+              <td>Kembali normal setelah mekanik selesai dan buat bill</td>
+              <td>Mekanik submit bill perbaikan</td>
+              <td>Mekanik / Sistem</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Diagram Alur Lengkap</h3>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-top:16px;">
+        <div style="display:flex;flex-direction:column;gap:16px;font-size:14px;">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span class="badge badge-green">🟢 Normal</span>
+            <span style="color:var(--text-muted);">← Driver lapor kerusakan →</span>
+            <span class="badge badge-orange">🟠 Pengajuan Perbaikan</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:20px;">
+            <span style="color:var(--text-muted);">← Admin cancel (oleh Driver) kembali ke</span>
+            <span class="badge badge-green">🟢 Normal</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:20px;">
+            <span style="color:var(--text-muted);">← Admin approve & assign →</span>
+            <span class="badge badge-blue">🔵 Perbaikan</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:40px;">
+            <span style="color:var(--text-muted);">← Mekanik tandai pending →</span>
+            <span class="badge badge-purple">🟣 Pending</span>
+            <span style="color:var(--text-muted);">↔ Dapat kembali ke Perbaikan</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:40px;">
+            <span style="color:var(--text-muted);">← Mekanik submit bill →</span>
+            <span class="badge badge-green">🟢 Normal</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>Alur Proses Towing</h3>
+      <div class="status-flow" style="margin-top:12px;">
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">Driver Ajukan Towing</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(240,136,62,0.12);color:#f0883e;border-color:rgba(240,136,62,0.3);">Towing: Pending</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(88,166,255,0.12);color:#58a6ff;border-color:rgba(88,166,255,0.3);">Towing: Diproses + Kendaraan: Pengajuan Perbaikan</span>
+        <span class="status-arrow">→</span>
+        <span class="status-item" style="background:rgba(63,185,80,0.12);color:#3fb950;border-color:rgba(63,185,80,0.3);">Towing: Selesai</span>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         FAQ
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="faq">
+      <div class="section-header">
+        <div class="section-icon icon-blue">❓</div>
+        <div>
+          <div class="section-title">21. Frequently Asked Questions (FAQ)</div>
+          <div class="section-subtitle">Pertanyaan yang sering diajukan</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Saya lupa Key login, apa yang harus dilakukan?</div>
+        <div class="card-body">Hubungi Admin untuk mendapatkan Key baru. Admin dapat memperbarui Key Anda melalui menu Generate Key. Key lama akan tidak berlaku setelah diganti.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Driver tidak bisa membuat laporan kerusakan. Kenapa?</div>
+        <div class="card-body">Pastikan: (1) Driver sudah ditugaskan ke sebuah kendaraan oleh Admin, dan (2) Kendaraan tersebut berstatus "Normal". Jika kendaraan sedang dalam status lain, tunggu proses selesai atau batalkan pengajuan yang ada.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Mekanik tidak muncul di dropdown saat approve pengajuan?</div>
+        <div class="card-body">Mekanik hanya muncul jika statusnya "Available". Jika semua mekanik berstatus "Full", minta mekanik yang bersangkutan untuk mengubah statusnya menjadi Available dari dashboard mereka.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Apakah Driver bisa mengedit laporan setelah Admin setuju?</div>
+        <div class="card-body">Tidak. Setelah Admin menyetujui pengajuan dan status kendaraan berubah menjadi "Perbaikan", laporan kerusakan tidak dapat diedit atau dibatalkan oleh Driver.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Apakah Bill perbaikan bisa diedit setelah disimpan?</div>
+        <div class="card-body">Tidak. Bill hanya dapat dibuat satu kali dan tidak dapat diedit. Pastikan semua detail biaya sudah benar sebelum menyimpan.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Bagaimana cara reset logo aplikasi ke tampilan default?</div>
+        <div class="card-body">Admin dapat mengklik tombol "Reset Logo" di halaman Dashboard Admin. Logo akan kembali ke logo default sistem.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Apakah satu driver bisa punya lebih dari satu kendaraan?</div>
+        <div class="card-body">Tidak. Setiap driver hanya dapat ditugaskan ke satu kendaraan sekaligus. Jika perlu mengganti kendaraan, lepaskan assignment kendaraan lama terlebih dahulu.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Berapa ukuran maksimal foto yang bisa diupload?</div>
+        <div class="card-body">
+          • Foto profil/kendaraan/struk bensin/logo: maks. <strong>2MB</strong> (JPG, PNG, GIF)<br>
+          • Bukti bill perbaikan: maks. <strong>5MB</strong> (JPG, PNG, GIF)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Apakah pengajuan towing bisa dibatalkan setelah diproses Admin?</div>
+        <div class="card-body">Tidak. Setelah Admin menandai towing sebagai "Diproses" (<code>isproses = true</code>), pengajuan tidak dapat lagi dibatalkan oleh Driver.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❓ Apakah reimburse struk bensin bisa dibatalkan?</div>
+        <div class="card-body">Pengajuan struk bensin hanya dapat dibatalkan selama masih berstatus <strong>"Menunggu"</strong> (belum diproses Admin). Setelah Admin memproses reimburse, tidak bisa dibatalkan.</div>
+      </div>
+
+    </section>
+
+    <!-- ── Footer ──────────────────────────────────── -->
+    <div style="text-align:center;padding:40px 0 20px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border);margin-top:40px;">
+      <div style="font-size:24px;margin-bottom:8px;">🚗</div>
+      <div style="font-weight:600;color:var(--text-secondary);margin-bottom:6px;">Sagara Daily Checkup</div>
+      <div>Manual Book v1.0 · Dibuat untuk keperluan akademik</div>
+      <div style="margin-top:8px;">Dibuat dengan ❤️ menggunakan Laravel + Inertia.js (React)</div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ── Scroll to Top ───────────────────────────────── -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Kembali ke atas">↑</button>
+
+<script>
+  // Scroll-to-top button visibility
+  window.addEventListener('scroll', function() {
+    const btn = document.getElementById('scroll-top');
+    if (window.scrollY > 300) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+
+  // Active sidebar link based on scroll
+  const navLinks = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('.section');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 100) current = section.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+
+  // Smooth scroll for nav items
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
