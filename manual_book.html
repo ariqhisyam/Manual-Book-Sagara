@@ -263,6 +263,23 @@
     .role-features li::before { content: '→'; color: var(--accent-teal); flex-shrink: 0; margin-top: 1px; }
 
     /* ── Step list ────────────────────────────────────────────────── */
+    .manual-image {
+      margin: 0 0 18px 0;
+    }
+    .manual-image img {
+      width: 100%;
+      max-width: 760px;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+    .manual-image figcaption {
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-align: center;
+    }
     .steps { list-style: none; }
     .step {
       display: flex;
@@ -1120,6 +1137,10 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+                <figure class="manual-image">
+                <img src="assets/tambah kendaraan.png" alt="Tombol Tambah Kendaraan pada halaman Manajemen Kendaraan">
+                <figcaption>Gambar 5.1 Tombol Tambah Kendaraan pada halaman Manajemen Kendaraan</figcaption>
+              </figure>
             <div class="step-title">Klik tombol "Tambah Kendaraan"</div>
             <div class="step-desc">Tombol ini terdapat di bagian atas halaman manajemen kendaraan.</div>
           </div>
@@ -1127,6 +1148,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+            <img src="assets/kendaraan-form.png" alt="Form Tambah Kendaraan">
+            <figcaption>Gambar 5.2 Form Tambah Kendaraan</figcaption>
+          </figure>
             <div class="step-title">Isi form data kendaraan</div>
             <div class="step-desc">
               <strong>Merek</strong> – Nama merek/tipe kendaraan (contoh: Toyota Avanza)<br>
@@ -1139,6 +1164,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+              <figure class="manual-image">
+              <img src="assets/kendaraan-simpan.png" alt="Notifikasi kendaraan berhasil ditambahkan">
+              <figcaption>Gambar 5.3 Notifikasi berhasil menambahkan kendaraan</figcaption>
+            </figure>
             <div class="step-title">Simpan data</div>
             <div class="step-desc">Klik <strong>Simpan</strong>. Sistem akan menampilkan notifikasi sukses dan kendaraan muncul di daftar.</div>
           </div>
@@ -1195,6 +1224,10 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+              <figure class="manual-image">
+              <img src="assets/pengajuan-tinjau.png" alt="Halaman tinjau detail pengajuan perbaikan">
+              <figcaption>Gambar 6.1 Halaman tinjau detail pengajuan perbaikan</figcaption>
+            </figure>
             <div class="step-title">Tinjau detail pengajuan</div>
             <div class="step-desc">Lihat informasi: nama driver, plat nomor, merek kendaraan, daftar kendala (nama & deskripsi kerusakan), dan catatan tambahan dari driver.</div>
           </div>
@@ -1202,6 +1235,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+              <figure class="manual-image">
+              <img src="assets/pengajuan-pilih-mekanik.png" alt="Form pilih mekanik pada pengajuan perbaikan">
+              <figcaption>Gambar 6.2 Memilih mekanik untuk pengajuan perbaikan</figcaption>
+            </figure>
             <div class="step-title">Pilih Mekanik</div>
             <div class="step-desc">Pilih mekanik yang tersedia (<strong>status Available</strong>) dari dropdown. Hanya mekanik dengan status Available yang dapat dipilih.</div>
           </div>
@@ -1209,6 +1246,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+              <figure class="manual-image">
+              <img src="assets/pengajuan-setujui.png" alt="Hasil setelah pengajuan disetujui dan ditugaskan ke mekanik">
+              <figcaption>Gambar 6.3 Hasil setelah pengajuan perbaikan disetujui dan ditugaskan</figcaption>
+            </figure>
             <div class="step-title">Klik "Setujui & Tugaskan"</div>
             <div class="step-desc">Sistem akan membuat record penugasan dan mengubah status kendaraan menjadi <strong>Perbaikan</strong>. Mekanik akan melihat tugas ini di dashboard mereka.</div>
           </div>
@@ -1250,6 +1291,10 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/towing-tinjau.png" alt="Halaman tinjau detail permintaan towing">
+              <figcaption>Gambar 7.1 Halaman tinjau detail permintaan towing</figcaption>
+            </figure>
             <div class="step-title">Tinjau detail permintaan</div>
             <div class="step-desc">Lihat informasi: nama driver, lokasi penjemputan, koordinat GPS (jika tersedia), dan keterangan tambahan dari driver.</div>
           </div>
@@ -1257,6 +1302,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+              <figure class="manual-image">
+                <img src="assets/towing-diproses.png" alt="Tombol Tandai Diproses pada pengajuan towing">
+                <figcaption>Gambar 7.2 Tombol Tandai Diproses pada pengajuan towing</figcaption>
+              </figure>
             <div class="step-title">Klik "Tandai Diproses"</div>
             <div class="step-desc">Mengubah status towing ke <strong>Diproses</strong>. Sistem otomatis mengubah status kendaraan driver menjadi <strong>Pengajuan Perbaikan</strong> dan mencatat kendala "Pengajuan Towing" dalam sistem.</div>
           </div>
@@ -1264,6 +1313,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/towing-selesai.png" alt="Tombol Tandai Selesai pada pengajuan towing">
+              <figcaption>Gambar 7.3 Tombol Tandai Selesai pada pengajuan towing</figcaption>
+            </figure>
             <div class="step-title">Klik "Tandai Selesai"</div>
             <div class="step-desc">Setelah kendaraan berhasil ditowing ke bengkel, tandai pengajuan sebagai Selesai.</div>
           </div>
@@ -1293,6 +1346,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+                <figure class="manual-image">
+                <img
+                  src="assets/bensin-cari-pengajuan.png"
+                  alt="Halaman pencarian pengajuan struk bensin"
+                >
+                <figcaption>
+                  Gambar 8.1 Halaman pencarian dan daftar pengajuan struk bensin
+                </figcaption>
+              </figure>
             <div class="step-title">Cari pengajuan struk</div>
             <div class="step-desc">Gunakan kolom pencarian untuk mencari berdasarkan nama driver, username, nama bank/e-wallet, atau nomor rekening.</div>
           </div>
@@ -1300,6 +1362,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/bensin-tinjau-struk.png" alt="Halaman tinjau detail struk bensin">
+              <figcaption>Gambar 8.2 Halaman tinjau detail struk bensin</figcaption>
+            </figure>
             <div class="step-title">Tinjau detail struk bensin</div>
             <div class="step-desc">Lihat foto struk bensin yang diupload driver, informasi bank/e-wallet tujuan, dan nomor rekening.</div>
           </div>
@@ -1307,6 +1373,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/bensin-upload-bukti.png" alt="Form upload bukti reimburse bensin">
+              <figcaption>Gambar 8.3 Form upload bukti reimburse bensin</figcaption>
+            </figure>
             <div class="step-title">Upload bukti reimburse</div>
             <div class="step-desc">Upload foto bukti transfer/reimburse (JPG/PNG, maks. 2MB). Klik tombol <strong>Proses Reimburse</strong>.</div>
           </div>
@@ -1314,6 +1384,10 @@
         <li class="step">
           <div class="step-num">4</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/bensin-reimburse-selesai.png" alt="Status reimburse bensin telah selesai">
+              <figcaption>Gambar 8.4 Status reimburse bensin telah selesai</figcaption>
+            </figure>
             <div class="step-title">Reimburse selesai</div>
             <div class="step-desc">Pengajuan akan ditandai sebagai selesai direimburse. Driver dapat melihat status pengajuannya berubah.</div>
           </div>
@@ -1384,6 +1458,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/user-tambah.png"
+                alt="Halaman Generate Key dan tombol Tambah User"
+              >
+              <figcaption>
+                Gambar 10.1 Tombol Tambah User pada halaman Generate Key
+              </figcaption>
+            </figure>
             <div class="step-title">Klik "Tambah User"</div>
             <div class="step-desc">Buka form tambah user baru.</div>
           </div>
@@ -1391,6 +1474,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/user-isi-data.png" alt="Form isi data user baru pada Generate Key">
+              <figcaption>Gambar 10.2 Form isi data user baru</figcaption>
+            </figure>
             <div class="step-title">Isi data user</div>
             <div class="step-desc">
               <strong>Username</strong> – Nama pengguna unik (tidak boleh sama dengan user lain)<br>
@@ -1402,6 +1489,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/user-simpan-berhasil.png" alt="User berhasil ditambahkan pada halaman Generate Key">
+              <figcaption>Gambar 10.3 User berhasil ditambahkan dan siap membagikan key ke pengguna</figcaption>
+            </figure>
             <div class="step-title">Simpan & bagikan key ke pengguna</div>
             <div class="step-desc">Simpan data user. Catat dan berikan key kepada pengguna yang bersangkutan secara aman (jangan via platform publik).</div>
           </div>
@@ -1495,6 +1586,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/driver-akses-laporan.png"
+                alt="Tombol Buat Laporan Kerusakan pada dashboard Driver"
+              >
+              <figcaption>
+                Gambar 12.1 Tombol Buat Laporan Kerusakan pada dashboard Driver
+              </figcaption>
+            </figure>
             <div class="step-title">Akses halaman Laporan</div>
             <div class="step-desc">Klik menu "Laporan Kerusakan" atau tombol "Laporkan Kerusakan" dari dashboard.</div>
           </div>
@@ -1502,6 +1602,19 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-tambah-kendala.png" alt="Form laporan kerusakan dan tombol Tambah Kendala">
+              <figcaption>Gambar 12.2a Form laporan kerusakan dan tombol Tambah Kendala</figcaption>
+            </figure>
+            <figure class="manual-image">
+              <img
+                src="assets/driver-form-kendala.png"
+                alt="Form Tambah Kendala Baru"
+              >
+              <figcaption>
+                Gambar 12.2b Form pengisian kendala baru
+              </figcaption>
+            </figure>
             <div class="step-title">Tambahkan kendala</div>
             <div class="step-desc">
               Untuk setiap kendala, isi:<br>
@@ -1514,6 +1627,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-tambah-catatan.png" alt="Form laporan kerusakan dengan catatan tambahan">
+              <figcaption>Gambar 12.3 Form laporan kerusakan dengan catatan tambahan</figcaption>
+            </figure>
             <div class="step-title">Tambahkan catatan (opsional)</div>
             <div class="step-desc">Isi kolom catatan jika ada informasi tambahan yang perlu disampaikan ke Admin atau Mekanik.</div>
           </div>
@@ -1521,6 +1638,10 @@
         <li class="step">
           <div class="step-num">4</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-submit-laporan.png" alt="Hasil setelah laporan kerusakan berhasil dikirim">
+              <figcaption>Gambar 12.4 Laporan kerusakan berhasil dikirim</figcaption>
+            </figure>
             <div class="step-title">Submit laporan</div>
             <div class="step-desc">Klik <strong>"Kirim Laporan"</strong>. Status kendaraan Anda akan berubah menjadi <strong>"Pengajuan Perbaikan"</strong> dan laporan akan masuk ke antrian Admin.</div>
           </div>
@@ -1550,6 +1671,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/driver-siapkan-struk.png"
+                alt="Form upload foto struk bensin"
+              >
+              <figcaption>
+                Gambar 13.1 Menyiapkan dan mengunggah foto struk bensin
+              </figcaption>
+            </figure>
             <div class="step-title">Siapkan foto struk</div>
             <div class="step-desc">Ambil foto struk bensin yang jelas dan terbaca. Format: JPG, PNG, GIF — maksimal <strong>2MB</strong>.</div>
           </div>
@@ -1557,6 +1687,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-pilih-bank.png" alt="Dropdown pilihan bank dan e-wallet tujuan reimburse">
+              <figcaption>Gambar 13.2 Memilih bank atau e-wallet tujuan reimburse</figcaption>
+            </figure>
             <div class="step-title">Pilih Bank/E-Wallet Tujuan</div>
             <div class="step-desc">Pilih bank atau e-wallet tujuan transfer reimburse dari dropdown yang tersedia.</div>
           </div>
@@ -1564,6 +1698,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-input-rekening.png" alt="Form input nomor rekening atau e-wallet untuk reimburse">
+              <figcaption>Gambar 13.3 Mengisi nomor rekening atau e-wallet tujuan reimburse</figcaption>
+            </figure>
             <div class="step-title">Masukkan Nomor Rekening/E-Wallet</div>
             <div class="step-desc">Isi nomor rekening atau nomor e-wallet dengan benar. Pastikan data ini akurat karena Admin akan mentransfer ke nomor ini.</div>
           </div>
@@ -1571,6 +1709,10 @@
         <li class="step">
           <div class="step-num">4</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-upload-submit-struk.png" alt="Hasil upload dan submit struk bensin">
+              <figcaption>Gambar 13.4 Hasil upload dan submit struk bensin</figcaption>
+            </figure>
             <div class="step-title">Upload & Submit</div>
             <div class="step-desc">Klik <strong>"Upload Struk"</strong>. Pengajuan akan masuk ke antrian Admin untuk diproses.</div>
           </div>
@@ -1621,6 +1763,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/driver-ajukan-towing.png"
+                alt="Halaman form pengajuan towing"
+              >
+              <figcaption>
+                Gambar 14.1 Halaman form pengajuan towing
+              </figcaption>
+            </figure>
             <div class="step-title">Klik "Ajukan Towing"</div>
             <div class="step-desc">Buka form pengajuan towing baru.</div>
           </div>
@@ -1628,6 +1779,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-lokasi-saat-ini.png" alt="Menentukan lokasi penjemputan towing pada peta">
+              <figcaption>Gambar 14.2 Menentukan lokasi penjemputan towing</figcaption>
+            </figure>
             <div class="step-title">Isi Lokasi Saat Ini</div>
             <div class="step-desc">Masukkan lokasi kendaraan Anda saat ini (nama jalan, patokan, atau alamat lengkap). Maksimal 1000 karakter.</div>
           </div>
@@ -1635,6 +1790,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-aktifkan-gps.png" alt="Tombol gunakan lokasi saat ini pada request towing">
+              <figcaption>Gambar 14.3 Mengaktifkan lokasi GPS untuk titik penjemputan towing</figcaption>
+            </figure>
             <div class="step-title">Aktifkan Lokasi GPS (Opsional)</div>
             <div class="step-desc">Jika tersedia, sistem dapat mendeteksi koordinat GPS Anda secara otomatis untuk memudahkan tim towing menemukan lokasi Anda.</div>
           </div>
@@ -1642,6 +1801,10 @@
         <li class="step">
           <div class="step-num">4</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-keterangan-towing.png" alt="Form detail pengajuan towing dan kolom keterangan tambahan">
+              <figcaption>Gambar 14.4 Mengisi keterangan tambahan pada pengajuan towing</figcaption>
+            </figure>
             <div class="step-title">Tambahkan Keterangan (Opsional)</div>
             <div class="step-desc">Jelaskan kondisi kendaraan atau informasi tambahan yang perlu diketahui tim towing. Maksimal 500 karakter.</div>
           </div>
@@ -1649,6 +1812,10 @@
         <li class="step">
           <div class="step-num">5</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-kirim-pengajuan-towing.png" alt="Hasil setelah pengajuan towing dikirim">
+              <figcaption>Gambar 14.5 Hasil setelah pengajuan towing berhasil dikirim</figcaption>
+            </figure>
             <div class="step-title">Kirim Pengajuan</div>
             <div class="step-desc">Klik <strong>"Kirim Request Towing"</strong>. Pengajuan akan masuk dengan status <strong>Pending</strong> dan Admin akan segera memprosesnya.</div>
           </div>
@@ -1681,6 +1848,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/driver-buka-sagara-ai.png"
+                alt="Halaman percakapan Sagara AI untuk Driver"
+              >
+              <figcaption>
+                Gambar 15.1 Halaman percakapan Sagara AI untuk Driver
+              </figcaption>
+            </figure>
             <div class="step-title">Buka halaman Sagara AI</div>
             <div class="step-desc">Akses melalui menu "Sagara AI" di sidebar atau dari dashboard Driver.</div>
           </div>
@@ -1688,6 +1864,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-deskripsi-gejala-ai.png" alt="Driver menjelaskan gejala kerusakan pada Sagara AI">
+              <figcaption>Gambar 15.2 Driver mendeskripsikan gejala kerusakan pada Sagara AI</figcaption>
+            </figure>
             <div class="step-title">Deskripsikan gejala kerusakan</div>
             <div class="step-desc">Ketik gejala atau keluhan tentang kendaraan Anda dalam bahasa natural. Contoh: "Mesin terasa bergetar dan ada suara aneh saat akselerasi".</div>
           </div>
@@ -1695,6 +1875,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-baca-analisis-ai.png" alt="Jawaban analisis dari Sagara AI">
+              <figcaption>Gambar 15.3 Membaca analisis dan saran dari Sagara AI</figcaption>
+            </figure>
             <div class="step-title">Baca analisis AI</div>
             <div class="step-desc">Sagara AI akan memberikan kemungkinan penyebab kerusakan dan saran langkah awal yang dapat diambil.</div>
           </div>
@@ -1702,6 +1886,10 @@
         <li class="step">
           <div class="step-num">4</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/driver-laporkan-ke-sistem-ai.png" alt="Tombol Laporkan Kendala pada Sagara AI">
+              <figcaption>Gambar 15.4 Melaporkan hasil konsultasi AI ke sistem</figcaption>
+            </figure>
             <div class="step-title">Laporkan ke sistem (opsional)</div>
             <div class="step-desc">Berdasarkan hasil diagnosa AI, Anda dapat langsung membuat laporan kerusakan resmi ke sistem dengan mengklik tombol <strong>"Laporkan Kerusakan"</strong> dari hasil chat.</div>
           </div>
@@ -1830,6 +2018,15 @@
         <li class="step">
           <div class="step-num">1</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img
+                src="assets/mekanik-akses-bill.png"
+                alt="Halaman pembuatan bill perbaikan kendaraan"
+              >
+              <figcaption>
+                Gambar 18.1 Halaman pembuatan bill perbaikan kendaraan
+              </figcaption>
+            </figure>
             <div class="step-title">Akses halaman Bill</div>
             <div class="step-desc">Dari halaman Detail Kerusakan atau Dashboard, klik tombol "Buat Bill".</div>
           </div>
@@ -1837,6 +2034,10 @@
         <li class="step">
           <div class="step-num">2</div>
           <div class="step-content">
+            <figure class="manual-image">
+              <img src="assets/mekanik-tambahkan-item-biaya.png" alt="Mengisi nominal biaya dan nama sparepart pada form bill">
+              <figcaption>Gambar 18.2 Mengisi item biaya pada form bill perbaikan</figcaption>
+            </figure>
             <div class="step-title">Tambahkan item biaya</div>
             <div class="step-desc">
               Untuk setiap item perbaikan, isi:<br>
@@ -1850,6 +2051,10 @@
         <li class="step">
           <div class="step-num">3</div>
           <div class="step-content">
+              <figure class="manual-image">
+                <img src="assets/mekanik-upload-bukti-bill.png" alt="Mengunggah bukti bill pembelian part pada form bill">
+                <figcaption>Gambar 18.3 Mengunggah bukti bill pembelian part</figcaption>
+              </figure>
             <div class="step-title">Upload bukti bill (opsional)</div>
             <div class="step-desc">Upload foto bukti tagihan/nota perbaikan jika ada. Format: JPG, PNG, GIF — maksimal <strong>5MB</strong>.</div>
           </div>
@@ -1864,6 +2069,10 @@
         <li class="step">
           <div class="step-num">5</div>
           <div class="step-content">
+                <figure class="manual-image">
+              <img src="assets/mekanik-submit-bill.png" alt="Notifikasi bill berhasil dibuat setelah submit bill">
+              <figcaption>Gambar 18.4 Bill perbaikan berhasil disubmit</figcaption>
+            </figure>
             <div class="step-title">Submit Bill</div>
             <div class="step-desc">Klik <strong>"Buat Bill"</strong>. Sistem akan menyimpan bill, menghitung total biaya otomatis, dan mengubah status kendaraan kembali ke <strong>Normal</strong>.</div>
           </div>
